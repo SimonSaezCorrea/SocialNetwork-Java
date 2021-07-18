@@ -12,75 +12,14 @@ import java.util.Date;
  *
  * @author Equipo
  */
-public class Comment {
-    private int id;
-    private String author;
-    private Date date;
-    private String content;
-    private ArrayList<Comment> listComment;
-    private int like;
+public class Comment extends Information{
 
-    public Comment(int id, String author, Date date, String content) {
-        this.id = id;
-        this.author = author;
-        this.date = date;
-        this.content = content;
-        this.listComment = new ArrayList();
-        this.like = 0;
+    public Comment(int id, User author, Date date, String content) {
+        super(id, author, date, content);
     }
 
-    public Comment(int id, String author, Date date, String content, ArrayList<Comment> listComment, int like) {
-        this.id = id;
-        this.author = author;
-        this.date = date;
-        this.content = content;
-        this.listComment = listComment;
-        this.like = like;
-    }
-
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-    
-    public Date getDate() {
-        return date;
-    }
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public String getContent() {
-        return content;
-    }
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public ArrayList<Comment> getListComment() {
-        return listComment;
-    }
-    public void setListComment(ArrayList<Comment> listComment) {
-        this.listComment = listComment;
-    }
-    public void addListComment(Comment comment){
-        listComment.add(comment);
-    }
-
-    public int getLike() {
-        return like;
-    }
-    public void setLike(int like) {
-        this.like = like;
+    public Comment(int id, User author, Date date, String content, ArrayList<Comment> listComment, int like) {
+        super(id, author, date, content, listComment, like);
     }
     
     

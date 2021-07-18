@@ -18,12 +18,10 @@ public class User {
     private String password;
     private boolean activity;
     private ArrayList<Post> listPost;
-    private ArrayList<Post> listPostComp;
+    private ArrayList<Post> listPostShare;
     private Date date;
-    private int amountFollowed;
-    private int amountFollowers;
-    private ArrayList<User> listAmFollowed;
-    private ArrayList<User> listAmFollowers;
+    private Follows followed;
+    private Follows followers;
 
     
     public User(int id, String name, String password, Date date){
@@ -32,26 +30,24 @@ public class User {
         this.password = password;
         this.activity = false;
         this.listPost = new ArrayList();
-        this.listPostComp = new ArrayList();
+        this.listPostShare = new ArrayList();
         this.date = date;
-        this.amountFollowed = 0;
-        this.amountFollowers = 0;
-        this.listAmFollowed = new ArrayList();
-        this.listAmFollowers = new ArrayList();
+        followed = new Follows();
+        followers = new Follows();
     }
-    public User(int id, String name, String password, boolean activity, ArrayList<Post> listPost, ArrayList<Post> listPostComp, Date date, int amountFollowed, int amountFollowers, ArrayList<User> listAmFollowed, ArrayList<User> listAmFollowers) {
+
+    public User(int id, String name, String password, boolean activity, ArrayList<Post> listPost, ArrayList<Post> listPostShare, Date date, Follows followed, Follows followers) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.activity = activity;
         this.listPost = listPost;
-        this.listPostComp = listPostComp;
+        this.listPostShare = listPostShare;
         this.date = date;
-        this.amountFollowed = amountFollowed;
-        this.amountFollowers = amountFollowers;
-        this.listAmFollowed = listAmFollowed;
-        this.listAmFollowers = listAmFollowers;
+        this.followed = followed;
+        this.followers = followers;
     }
+    
 
     public int getId() {
         return id;
@@ -91,14 +87,14 @@ public class User {
         listPost.add(post);
     }
 
-    public ArrayList<Post> getListPostComp() {
-        return listPostComp;
+    public ArrayList<Post> getListPostShare() {
+        return listPostShare;
     }
-    public void setListPostComp(ArrayList<Post> listPostComp) {
-        this.listPostComp = listPostComp;
+    public void setListPostShare(ArrayList<Post> listPostShare) {
+        this.listPostShare = listPostShare;
     }
-    public void addListPostComp(Post post){
-        listPostComp.add(post);
+    public void addListPostShare(Post post){
+        listPostShare.add(post);
     }
 
     public Date getDate() {
@@ -108,39 +104,20 @@ public class User {
         this.date = date;
     }
 
-    public int getAmountFollowed() {
-        return amountFollowed;
+    public Follows getFollowed() {
+        return followed;
     }
-    public void setAmountFollowed(int amountFollowed) {
-        this.amountFollowed = amountFollowed;
-    }
-
-    public int getAmountFollowers() {
-        return amountFollowers;
-    }
-    public void setAmountFollowers(int amountFollowers) {
-        this.amountFollowers = amountFollowers;
+    public void setFollowed(Follows followed) {
+        this.followed = followed;
     }
 
-    public ArrayList<User> getListAmFollowed() {
-        return listAmFollowed;
+    public Follows getFollowers() {
+        return followers;
     }
-    public void setListAmFollowed(ArrayList<User> listAmFollowed) {
-        this.listAmFollowed = listAmFollowed;
+    public void setFollowers(Follows followers) {
+        this.followers = followers;
     }
-    public void addListAmFollowed(User user){
-        listAmFollowed.add(user);
-    }
-
-    public ArrayList<User> getListAmFollowers() {
-        return listAmFollowers;
-    }
-    public void setListAmFollowers(ArrayList<User> listAmFollowers) {
-        this.listAmFollowers = listAmFollowers;
-    }
-    public void addListAmFollowers(User user){
-        listAmFollowers.add(user);
-    }
+    
     
     
 }

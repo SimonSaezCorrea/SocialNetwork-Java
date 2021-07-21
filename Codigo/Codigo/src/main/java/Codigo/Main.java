@@ -77,13 +77,14 @@ public class Main {
         
         //Iniciar sesion
         
-        boolean runGlobal, runIniciar, runInterctivo;
+        boolean runGlobal, runIniciar, runInterctivo, runCorreccion;
         String opcionElegida_S;
         int opcionElegida_I;
         Scanner eleccion = new Scanner(System.in);
         
         runGlobal = true;
         runIniciar = true;
+        runCorreccion = true;
         runInterctivo = true;
         
         while(runGlobal){
@@ -98,22 +99,51 @@ public class Main {
 
                 opcionElegida_I = Integer.parseInt(opcionElegida_S);
 
+                
+                String name,password;
                 switch (opcionElegida_I) {
                     // Cerrar el programa
                     case 0:
                         runGlobal = false;
                         runIniciar = false;
                         runInterctivo = false;
+                        runCorreccion = false;
                         break;
                     // Funcion login
                     case 1:
-                        runIniciar = false;
-                        runInterctivo = true;
+                        runCorreccion = true;
+                        while(runCorreccion){
+                            System.out.println("Ingrese el nombre: ");
+                            name = eleccion.nextLine();
+                            System.out.println("Ingrese la contraseña: ");
+                            password = eleccion.nextLine();
+                            if(SN.login(name, password)){
+                                runIniciar = false;
+                                runInterctivo = true;
+                                runCorreccion = false;
+                            }
+                            else{
+                                System.out.println("Error al ingresar, ingreso nombre o contraseña erroneamente");
+                            }
+                        }
                         break;
                     // Funcion register
                     case 2:
-                        runIniciar = false;
                         runInterctivo = true;
+                        while(runInterctivo){
+                            System.out.println("Ingrese el nombre: ");
+                            name = eleccion.nextLine();
+                            System.out.println("Ingrese la contraseña: ");
+                            password = eleccion.nextLine();
+                            if(SN.register(name, password)){
+                                runIniciar = false;
+                                runInterctivo = true;
+                                runCorreccion = false;
+                            }
+                            else{
+                                System.out.println("Error al ingresar, ingreso nombre o contraseña erroneamente");
+                            }
+                        }
                         break;
                     // Caso que no existe
                     default:
@@ -121,6 +151,7 @@ public class Main {
                         break;
                 }
             }
+            
             
             while(runInterctivo){
                 System.out.println("----------------------");
@@ -167,6 +198,8 @@ public class Main {
                     case 7:
                         runIniciar = true;
                         runInterctivo = false;
+                        runCorreccion = true;
+                        SN.logout();
                         break;
                     // Caso que no existe
                     default:

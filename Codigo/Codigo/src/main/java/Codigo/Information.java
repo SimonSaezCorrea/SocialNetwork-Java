@@ -12,7 +12,7 @@ import java.util.Date;
  *
  * @author Equipo
  */
-public class Information {
+public abstract class Information {
     private int id;
     private User author;
     private Date date;

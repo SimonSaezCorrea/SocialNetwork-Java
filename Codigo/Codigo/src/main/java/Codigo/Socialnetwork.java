@@ -6,6 +6,7 @@
 package Codigo;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -35,6 +36,108 @@ public class Socialnetwork {
         this.listComment = listComment;
     }
 
+    public boolean login(String name, String password){
+        if(existUser(name ,password)){
+            User user = searchUser(name);
+            user.setActivity(true);
+            return true;
+        }
+        return false;
+    }
+    public boolean register(String name, String password){
+        if(!existUser(name, password)){
+            User user = new User(createIDUser(), name, password, Calendar.getInstance().getTime());
+            user.setActivity(true);
+            return true;
+        }
+        return false;
+    }
+    
+    public void logout(){
+        int i;
+        for(i = 0; i < listUser.size(); i++){
+            if(listUser.get(i).getActivity()){
+                listUser.get(i).setActivity(false);
+            }
+        }
+    }
+    
+    
+    public int createIDUser(){
+        return 1 + listUser.size();
+    }
+    
+    public int createIDPost(){
+        return 1 + listPost.size();
+    }
+    
+    public int createIDComment(){
+        return 1 + listComment.size();
+    }       
+    
+    public boolean existUser(String name){
+        int i;
+        for(i = 0; i < listUser.size(); i++){
+            if(name.equals(listUser.get(i).getName())){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean existUser(String name, String password){
+        int i;
+        for(i = 0; i < listUser.size(); i++){
+            if(name.equals(listUser.get(i).getName()) && password.equals(listUser.get(i).getPassword())){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public User searchUser(String name){
+        int i;
+        User user = null;
+        for(i = 0; i < listUser.size();i++){
+            if(name.equals(listUser.get(i).getName())){
+                user = listUser.get(i);
+            }
+        }
+        return user;
+    }
+    public User searchUser(int id){
+        int i;
+        User user = null;
+        for(i = 0; i < listUser.size();i++){
+            if(id == listUser.get(i).getId()){
+                user = listUser.get(i);
+            }
+        }
+        return user;
+    }
+    
+    public Post searchPost(int id){
+        int i;
+        Post post = null;
+        for(i = 0; i < listPost.size();i++){
+            if(id == listPost.get(i).getId()){
+                post = listPost.get(i);
+            }
+        }
+        return post;
+    }
+    
+    public Comment searchComment(int id){
+        int i;
+        Comment comment = null;
+        for(i = 0; i < listComment.size();i++){
+            if(id == listComment.get(i).getId()){
+                comment = listComment.get(i);
+            }
+        }
+        return comment;
+    }
+    
+    
     public String getName() {
         return name;
     }

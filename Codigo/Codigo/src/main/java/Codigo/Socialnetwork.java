@@ -35,7 +35,15 @@ public class Socialnetwork {
         this.listPost = listPost;
         this.listComment = listComment;
     }
-
+    
+    //------------------------------------- ACCIONABLE -------------------------------------------------------
+    
+    /**
+     * Metodo que permite hacer login (conectar) de un usuario en la socialnetwork
+     * @param name
+     * @param password
+     * @return Una sentencia booleana para saber si se ha registrado o no
+     */
     public boolean login(String name, String password){
         if(existUser(name ,password)){
             User user = searchUser(name);
@@ -44,6 +52,12 @@ public class Socialnetwork {
         }
         return false;
     }
+    /**
+     * Metodo que permite registrar y conectar a un nuevo usuario a la socialnetwork
+     * @param name
+     * @param password
+     * @return Una sentencia booleana para saber si se ha registrado o no
+     */
     public boolean register(String name, String password){
         if(!existUser(name, password)){
             User user = new User(createIDUser(), name, password, Calendar.getInstance().getTime());
@@ -53,6 +67,9 @@ public class Socialnetwork {
         return false;
     }
     
+    /**
+     * Permite desconectar a una cuenta conectada en la socialnetwork
+     */
     public void logout(){
         int i;
         for(i = 0; i < listUser.size(); i++){
@@ -62,19 +79,48 @@ public class Socialnetwork {
         }
     }
     
+    public void post(String typePost, String content){
+        
+        User author = searchUserActive();
+        
+        if(author != null){
+            Post post = new Post(createIDPost(), author, Calendar.getInstance().getTime(), content, typePost);
+        }
+    }
     
+    //--------------------------------------------------- CREACION ID -------------------------------------------------------
+    
+    /**
+     * Metodo que permite encontrar el ID mayor de la lista de usuarios
+     * @return El id a usar (int)
+     */
     public int createIDUser(){
         return 1 + listUser.size();
     }
     
+    /**
+     * Metodo que permite encontrar el ID mayor de la lista de publicaciones
+     * @return El id a usar (int)
+     */
     public int createIDPost(){
         return 1 + listPost.size();
     }
     
+    /**
+     * Metodo que permite encontrar el ID mayor de la lista de comentarios
+     * @return El id a usar (int)
+     */
     public int createIDComment(){
         return 1 + listComment.size();
     }       
     
+    //------------------------------------------------- EXISTENCIA --------------------------------------------------------
+    
+    /**
+     * Metodo que permite saber si existe tal usuario
+     * @param name
+     * @return Una sentencia booleana que permite saber si existe el usuario o no
+     */
     public boolean existUser(String name){
         int i;
         for(i = 0; i < listUser.size(); i++){
@@ -84,6 +130,13 @@ public class Socialnetwork {
         }
         return false;
     }
+    
+    /**
+     * Metodo que permite saber si existe tal usuario
+     * @param name
+     * @param password
+     * @return Una sentencia booleana que permite saber si existe el usuario o no
+     */
     public boolean existUser(String name, String password){
         int i;
         for(i = 0; i < listUser.size(); i++){
@@ -94,6 +147,27 @@ public class Socialnetwork {
         return false;
     }
     
+    
+    //-------------------------------------------------- SEARCH ----------------------------------------------------------
+    
+    public User searchUserActive(){
+        User user = null;
+        
+        int i;
+        for(i = 0; i < listUser.size(); i++){
+            if(listUser.get(i).getActivity()){
+                user = listUser.get(i);
+            }
+        }
+        
+        return user;
+    }
+    
+    /**
+     * Metodo que permite buscar dentro de una lista de usuarios un usuario
+     * @param name
+     * @return El usuario encontrado
+     */
     public User searchUser(String name){
         int i;
         User user = null;
@@ -104,6 +178,12 @@ public class Socialnetwork {
         }
         return user;
     }
+    
+    /**
+     * Metodo que permite buscar dentro de una lista de usuarios un usuario
+     * @param id
+     * @return El usuario encontrado
+     */
     public User searchUser(int id){
         int i;
         User user = null;
@@ -115,6 +195,11 @@ public class Socialnetwork {
         return user;
     }
     
+    /**
+     * Metodo que permite buscar dentro de una lista de una publicacion una publicacion
+     * @param id
+     * @return La publicacion encontrado
+     */
     public Post searchPost(int id){
         int i;
         Post post = null;
@@ -126,6 +211,11 @@ public class Socialnetwork {
         return post;
     }
     
+    /**
+     * Metodo que permite buscar dentro de una lista de comentarios un comentario
+     * @param id
+     * @return El comentario encontrado
+     */
     public Comment searchComment(int id){
         int i;
         Comment comment = null;
@@ -137,6 +227,8 @@ public class Socialnetwork {
         return comment;
     }
     
+    
+    //--------------------------------------------- GET and SET --------------------------------------------------
     
     public String getName() {
         return name;

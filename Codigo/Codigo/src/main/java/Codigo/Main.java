@@ -99,8 +99,8 @@ public class Main {
 
                 opcionElegida_I = Integer.parseInt(opcionElegida_S);
 
-                
                 String name,password;
+                
                 switch (opcionElegida_I) {
                     // Cerrar el programa
                     case 0:
@@ -168,6 +168,8 @@ public class Main {
                 opcionElegida_S = eleccion.nextLine();
 
                 opcionElegida_I = Integer.parseInt(opcionElegida_S);
+                String content, typePost_S;
+                int typePost_I;
                 
                 switch (opcionElegida_I) {
                     // Cerrar el programa
@@ -178,6 +180,54 @@ public class Main {
                         break;
                     // Funcion post
                     case 1:
+                        runCorreccion = true;
+                        System.out.println("Que tipo de publicacion desea?");
+                        System.out.println("1) Texto");
+                        System.out.println("2) Imagen");
+                        System.out.println("3) Video");
+                        System.out.println("4) Audio");
+                        System.out.println("5) Enlace");
+                        typePost_S = eleccion.nextLine();
+                        typePost_I = Integer.parseInt(typePost_S);
+                        while(runCorreccion){
+                            switch (typePost_I){
+                                case 1:
+                                    System.out.println("Que texto desea colocar");
+                                    content = eleccion.nextLine();
+                                    SN.post("Text", content);
+                                    runCorreccion = false;
+                                    break;
+                                case 2:
+                                    System.out.println("Que foto desea colocar");
+                                    content = eleccion.nextLine();
+                                    SN.post("Photo", content);
+                                    runCorreccion = false;
+                                    break;
+                                case 3:
+                                    System.out.println("Que video desea colocar");
+                                    content = eleccion.nextLine();
+                                    SN.post("Video", content);
+                                    runCorreccion = false;
+                                    break;
+                                case 4:
+                                    System.out.println("Que audio desea colocar");
+                                    content = eleccion.nextLine();
+                                    SN.post("Audio", content);
+                                    runCorreccion = false;
+                                    break;
+                                case 5:
+                                    System.out.println("Que enlace desea colocar");
+                                    content = eleccion.nextLine();
+                                    SN.post("Link", content);
+                                    runCorreccion = false;
+                                    break;
+                                default:
+                                    System.out.println("Error, no eligio correctamente");
+                                    break;
+                            }
+                        }
+                        
+                        content = eleccion.nextLine();
                         break;
                     // Funcion follow
                     case 2:

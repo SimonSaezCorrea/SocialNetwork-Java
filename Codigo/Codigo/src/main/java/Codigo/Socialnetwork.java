@@ -50,6 +50,7 @@ public class Socialnetwork {
             user.setActivity(true);
             return true;
         }
+        System.out.println("El usuario no existe\n");
         return false;
     }
     /**
@@ -65,6 +66,7 @@ public class Socialnetwork {
             addListUser(user);
             return true;
         }
+        System.out.println("El usuario ya existe\n");
         return false;
     }
     
@@ -96,25 +98,35 @@ public class Socialnetwork {
             author.addListPost(post);
         }
     }
-    public void post(String typePost, String content, ArrayList<User> listIdUser){
+    public void post(String typePost, String content, ArrayList<Integer> listIdUser){
         
         User author = searchUserActive();
         
         if(author != null){
             Post post = new Post(createIDPost(), author, Calendar.getInstance().getTime(), content, typePost);
             addListPost(post);
-            listIdUser.forEach(user -> {
-                user.addListPost(post);
-            });
+            for(int idUser: listIdUser){
+                if(existUser(idUser)){
+                    searchUser(idUser).addListPost(post);
+                }
+                else{
+                    System.out.println("No existe el usuario para enviarle el post");
+                }
+            }
         }
     }
     
     public void follow(int idUser){
-        User user = searchUser(idUser);
         User userConnect = searchUserActive();
+        if(idUser != userConnect.getId()){
+            User user = searchUser(idUser);
+
+            userConnect.getFollowed().addListFollows(user);
+            user.getFollowers().addListFollows(userConnect);
+        }else{
+            System.out.println("No puedes seguir a ti mismo\n");
+        }
         
-        userConnect.getFollowed().addListFollows(user);
-        user.getFollowers().addListFollows(userConnect);
     }
     
     public void visualize(){
@@ -206,6 +218,22 @@ public class Socialnetwork {
         return false;
     
         //return listUser.stream().anyMatch(user -> (name.equals(user.getName()) && password.equals(user.getPassword())));
+    }
+    
+    /**
+     * Metodo que permite saber si existe tal usuario
+     * @param id
+     * @return Una sentencia booleana que permite saber si existe el usuario o no
+     */
+    public boolean existUser(int id){
+        for(User user: listUser){
+            if(id == user.getId()){
+                return true;
+            }
+        }
+        return false;
+        
+        //return listUser.stream().anyMatch(user -> (name.equals(user.getName())));
     }
     
     

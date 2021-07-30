@@ -39,14 +39,26 @@ public class Main {
         //Se añaden las preguntas
         SN.login("Simon", "123");
         SN.post("text", "Este es el primer post");
+        SN.follow(2);
+        SN.follow(3);
+        SN.follow(4);
+        SN.follow(5);
         SN.logout();
         
         SN.login("Maria", "abc");
         SN.post("text", "Soy el segundo jaja");
+        SN.follow(1);
+        SN.follow(3);
+        SN.follow(4);
+        SN.follow(5);
         SN.logout();
         
         SN.login("Carlos", "1a2b3c4d");
         SN.post("text", "Y bueno, ¿Ahora que?");
+        SN.follow(1);
+        SN.follow(2);
+        SN.follow(4);
+        SN.follow(5);
         SN.logout();
         
         SN.login("Simon", "123");

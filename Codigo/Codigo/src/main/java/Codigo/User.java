@@ -13,7 +13,7 @@ import java.util.Date;
  * @author Equipo
  */
 public class User {
-    private int id;
+    public int id;
     private String name;
     private String password;
     private boolean activity;
@@ -118,6 +118,34 @@ public class User {
         this.followers = followers;
     }
     
-    
+    public String ToString(){
+        String string = "";
+        string = string + 
+                "   ID: " + String.valueOf(getId()) + 
+                "\n   Nombre: " + getName() + 
+                "\n   Follows: " + String.valueOf(getFollowed().getAmountFollows()) + " | " + String.valueOf(getFollowers().getAmountFollows()) + 
+                "\n   Lista de publicaciones en el perfil: \n";
+        if(getListPost().isEmpty()){
+            string = string + "      <No hay publicaciones>\n";
+        }else{
+            for(Post post: getListPost()){
+                string = string +
+                        post.ToString() + 
+                        "-------------------------------------\n";
+            }
+        }
+        string = string + "   Lista de publicaciones compartidas en el perfil: \n";
+        if(getListPostShare().isEmpty()){
+            string = string + "      <No hay publicaciones compartidas>\n";
+        }else{
+            for(Post postShare: getListPostShare()){
+                string = string +
+                        postShare.ToString() + 
+                        "-------------------------------------\n";
+            }
+        }
+        
+        return string;
+    }
     
 }

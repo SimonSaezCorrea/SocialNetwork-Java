@@ -22,8 +22,8 @@ public class Post extends Information{
         this.amountShare = 0;
     }
 
-    public Post(int id, User author, Date date, String content, ArrayList<Comment> listComment, int like, String typePost, int amountShare) {
-        super(id, author, date, content, listComment, like);
+    public Post(int id, User author, Date date, String content, ArrayList<Comment> listComment, int like, ArrayList<Like> listLike, String typePost, int amountShare) {
+        super(id, author, date, content, listComment, like, listLike);
         this.typePost = typePost;
         this.amountShare = amountShare;
     }
@@ -42,6 +42,25 @@ public class Post extends Information{
         this.amountShare = amountShare;
     }
     
-    
+    public String ToString(){
+        String string = "";
+        string = string + 
+                "      Autor: " + getAuthor().getName() +
+                "\n      Contenido: " + getContent() + 
+                "\n      Like: " + String.valueOf(getLike()) +
+                "\n      Cantidad de veces compartida: " + String.valueOf(getAmountShare()) + 
+                "\n      Comentarios: \n";
+        if(getListComment().isEmpty()){
+            string = string + "         <No hay comentarios>\n";
+        }else{
+            for(Comment comment: getListComment()){
+                string = string + 
+                        "..................................................\n" +
+                        comment.ToString() +
+                        "..................................................\n";
+            }
+        }
+        return string;
+    }
 }
 

@@ -19,6 +19,7 @@ public abstract class Information {
     private String content;
     private ArrayList<Comment> listComment;
     private int like;
+    private ArrayList<Like> listLike;
 
     public Information(int id, User author, Date date, String content) {
         this.id = id;
@@ -27,16 +28,19 @@ public abstract class Information {
         this.content = content;
         this.listComment = new ArrayList();
         this.like = 0;
+        this.listLike = new ArrayList();
     }
 
-    public Information(int id, User author, Date date, String content, ArrayList<Comment> listComment, int like) {
+    public Information(int id, User author, Date date, String content, ArrayList<Comment> listComment, int like, ArrayList<Like> listLike) {
         this.id = id;
         this.author = author;
         this.date = date;
         this.content = content;
         this.listComment = listComment;
         this.like = like;
+        this.listLike = listLike;
     }
+
 
     public int getId() {
         return id;
@@ -82,4 +86,17 @@ public abstract class Information {
     public void setLike(int like) {
         this.like = like;
     }
+
+    public ArrayList<Like> getListLike() {
+        return listLike;
+    }
+    public void setListLike(ArrayList<Like> listLike) {
+        this.listLike = listLike;
+    }
+    public void addListLike(Like like){
+        this.like = this.like + 1;
+        this.listLike.add(like);
+    }
+    
+    
 }

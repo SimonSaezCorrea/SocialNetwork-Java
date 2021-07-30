@@ -20,57 +20,51 @@ public class Main {
     public static void main(String[] args){
         // TODO code application logic here
         
-        //Se crean los usuarios iniciales de la socialnetwork
-        User user1 = new User(1, "Simon", "123", Calendar.getInstance().getTime());
-        User user2 = new User(2, "Maria", "abc", Calendar.getInstance().getTime());
-        User user3 = new User(3, "Carlos", "1a2b3c4d", Calendar.getInstance().getTime());
-        User user4 = new User(4, "Laura", "contraseña", Calendar.getInstance().getTime());
-        User user5 = new User(5, "Anonimo", "*****", Calendar.getInstance().getTime());
-        
-        //Se cren los post iniciales de la socialnetwork
-        Post post1 = new Post(1, user1, Calendar.getInstance().getTime(), "Este es el primer post", "text");
-        Post post2 = new Post(2, user2, Calendar.getInstance().getTime(), "Soy el segundo jaja", "text"); 
-        Post post3 = new Post(3, user3, Calendar.getInstance().getTime(), "La primera imagen? Aunque es textual...", "photo");
-        Post post4 = new Post(4, user1, Calendar.getInstance().getTime(), "Se va avanzando", "text");
-        Post post5 = new Post(5, user1, Calendar.getInstance().getTime(), "Ya van siendo varios post de la gente, fantastico", "text");
-        
-        //Se crean los comentarios iniciales de la socialnetwork
-        Comment comment1 = new Comment(1, user1, Calendar.getInstance().getTime(), "Este es el primer comentario");
-        Comment comment2 = new Comment(2, user4, Calendar.getInstance().getTime(), "Y yo el segundo comentario jeje");
-        Comment comment3 = new Comment(3, user5, Calendar.getInstance().getTime(), "Lastima no poder comentar con una foto");
-        Comment comment4 = new Comment(4, user5, Calendar.getInstance().getTime(), "Animo!");
-        Comment comment5 = new Comment(5, user2, Calendar.getInstance().getTime(), "Se progresa rapido (?");
-        
         //Se crea la socialnetwork
         Socialnetwork SN = new Socialnetwork("TheNewSocial", Calendar.getInstance().getTime());
         
         //Se añaden los usuarios
-        SN.addListUser(user1);
-        SN.addListUser(user2);
-        SN.addListUser(user3);
-        SN.addListUser(user4);
-        SN.addListUser(user5);
         
-        //Se añaden los post
-        SN.addListPost(post1);
-        SN.addListPost(post2);
-        SN.addListPost(post3);
-        SN.addListPost(post4);
-        SN.addListPost(post5);
+        SN.register("Simon", "123");
+        SN.logout();
+        SN.register("Maria", "abc");
+        SN.logout();
+        SN.register("Carlos", "1a2b3c4d");
+        SN.logout();
+        SN.register("Laura", "contraseña");
+        SN.logout();
+        SN.register("Anonimo", "*****");
+        SN.logout();
+        
+        //Se añaden las preguntas
+        SN.login("Simon", "123");
+        SN.post("text", "Este es el primer post");
+        SN.logout();
+        
+        SN.login("Maria", "abc");
+        SN.post("text", "Soy el segundo jaja");
+        SN.logout();
+        
+        SN.login("Carlos", "1a2b3c4d");
+        SN.post("text", "Y bueno, ¿Ahora que?");
+        SN.logout();
+        
+        SN.login("Simon", "123");
+        SN.post("text", "Se va avanzando");
+        SN.logout();
+        
+        SN.login("Simon", "123");
+        SN.post("text", "Ya van siendo varios post de la gente, fantastico");
+        SN.logout();
         
         //Se añaden los comentarios
-        SN.addListComment(comment1);
-        SN.addListComment(comment2);
-        SN.addListComment(comment3);
-        SN.addListComment(comment4);
-        SN.addListComment(comment5);
         
-        //Se añaden los comentarios a los post
-        post1.addListComment(comment1);
-        post2.addListComment(comment2);
-        post3.addListComment(comment3);
-        post4.addListComment(comment4);
-        post4.addListComment(comment5);
+        //Se crean los comentarios iniciales de la socialnetwork
+        /* Comment comment1 = new Comment(1, user1, Calendar.getInstance().getTime(), "Este es el primer comentario");
+        Comment comment2 = new Comment(2, user4, Calendar.getInstance().getTime(), "Y yo el segundo comentario jeje");
+        Comment comment3 = new Comment(3, user5, Calendar.getInstance().getTime(), "Lastima no poder comentar con una foto");
+        Comment comment4 = new Comment(4, user5, Calendar.getInstance().getTime(), "Animo!");
+        Comment comment5 = new Comment(5, user2, Calendar.getInstance().getTime(), "Se progresa rapido (?");*/
         
         //-----------------------------------------------------------------------------------------------------------------
         // Se inicia con la interfaz de uso
@@ -91,8 +85,9 @@ public class Main {
             while(runIniciar){
                 System.out.println("----------------------");
                 System.out.println("0) Salir");
-                System.out.println("1) Iniciar Sesion   (Proximamente)");
-                System.out.println("2) Registrarse      (Proximamente)");
+                System.out.println("1) Iniciar Sesion");
+                System.out.println("2) Registrarse");
+                System.out.println("3) Visualizar la red social     (Proximamente)");
                 System.out.println("----------------------");
 
                 opcionElegida_S = eleccion.nextLine();
@@ -129,8 +124,8 @@ public class Main {
                         break;
                     // Funcion register
                     case 2:
-                        runInterctivo = true;
-                        while(runInterctivo){
+                        runCorreccion = true;
+                        while(runCorreccion){
                             System.out.println("Ingrese el nombre: ");
                             name = eleccion.nextLine();
                             System.out.println("Ingrese la contraseña: ");
@@ -145,6 +140,9 @@ public class Main {
                             }
                         }
                         break;
+                    case 3:
+                        SN.visualize();
+                        break;
                     // Caso que no existe
                     default:
                         System.out.println("La opcion no existe, vuelva a intentarlo");
@@ -152,7 +150,10 @@ public class Main {
                 }
             }
             
+            User user = new User(10, "Algo", "123", Calendar.getInstance().getTime());
             
+            user.setId(3);
+        
             while(runInterctivo){
                 System.out.println("----------------------");
                 System.out.println("0) Salir");
@@ -162,7 +163,7 @@ public class Main {
                 System.out.println("4) Visualizar la red social     (Proximamente)");
                 System.out.println("5) Comentar una publicacion     (Proximamente)");
                 System.out.println("6) Dar like a una publicacion   (Proximamente)");
-                System.out.println("7) Cerrar sesion                (Proximamente)");
+                System.out.println("7) Cerrar sesion");
                 System.out.println("----------------------");
 
                 opcionElegida_S = eleccion.nextLine();
@@ -237,6 +238,7 @@ public class Main {
                         break;
                     // Funcion visualize
                     case 4:
+                        SN.visualize();
                         break;
                     // Funcion comment
                     case 5:

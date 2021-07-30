@@ -62,6 +62,7 @@ public class Socialnetwork {
         if(!existUser(name, password)){
             User user = new User(createIDUser(), name, password, Calendar.getInstance().getTime());
             user.setActivity(true);
+            addListUser(user);
             return true;
         }
         return false;
@@ -71,12 +72,18 @@ public class Socialnetwork {
      * Permite desconectar a una cuenta conectada en la socialnetwork
      */
     public void logout(){
-        int i;
-        for(i = 0; i < listUser.size(); i++){
-            if(listUser.get(i).getActivity()){
-                listUser.get(i).setActivity(false);
+        /*
+        for(User user: listUser){
+            if(user.getActivity()){
+                user.setActivity(false);
             }
         }
+        */
+        listUser.forEach(user -> {
+            if(user.getActivity()){
+                user.setActivity(false);
+            }
+        });
     }
     
     public void post(String typePost, String content){
@@ -85,7 +92,59 @@ public class Socialnetwork {
         
         if(author != null){
             Post post = new Post(createIDPost(), author, Calendar.getInstance().getTime(), content, typePost);
+            addListPost(post);
+            author.addListPost(post);
         }
+    }
+    public void post(String typePost, String content, ArrayList<User> listIdUser){
+        
+        User author = searchUserActive();
+        
+        if(author != null){
+            Post post = new Post(createIDPost(), author, Calendar.getInstance().getTime(), content, typePost);
+            addListPost(post);
+            listIdUser.forEach(user -> {
+                user.addListPost(post);
+            });
+        }
+    }
+    
+    public void follow(int idUser){
+        User user = searchUser(idUser);
+        User userConnect = searchUserActive();
+        
+        userConnect.getFollowed().addListFollows(user);
+        user.getFollowers().addListFollows(userConnect);
+    }
+    
+    public void visualize(){
+        PrintSocialNetwork(SocialNetworkToString());
+    }
+    
+    private String SocialNetworkToString(){
+        String string = "";
+        
+        User userActivo = searchUserActive();
+        
+        if(userActivo != null){
+            string = string + userActivo.ToString();
+            return string;
+        }
+        
+        string = string + 
+                "Nombre: " + getName() +
+                "\nUsuarios inscritos: \n";
+        for(User users: listUser){
+            string = string +
+                    users.ToString() +
+                    "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n";
+        }
+        
+        return string;
+    }
+    
+    private void PrintSocialNetwork(String string){
+        System.out.println(string);
     }
     
     //--------------------------------------------------- CREACION ID -------------------------------------------------------
@@ -122,13 +181,14 @@ public class Socialnetwork {
      * @return Una sentencia booleana que permite saber si existe el usuario o no
      */
     public boolean existUser(String name){
-        int i;
-        for(i = 0; i < listUser.size(); i++){
-            if(name.equals(listUser.get(i).getName())){
+        for(User user: listUser){
+            if(name.equals(user.getName())){
                 return true;
             }
         }
         return false;
+        
+        //return listUser.stream().anyMatch(user -> (name.equals(user.getName())));
     }
     
     /**
@@ -138,28 +198,27 @@ public class Socialnetwork {
      * @return Una sentencia booleana que permite saber si existe el usuario o no
      */
     public boolean existUser(String name, String password){
-        int i;
-        for(i = 0; i < listUser.size(); i++){
-            if(name.equals(listUser.get(i).getName()) && password.equals(listUser.get(i).getPassword())){
+        for(User user : listUser){
+            if(name.equals(user.getName()) && password.equals(user.getPassword())){
                 return true;
             }
         }
         return false;
+    
+        //return listUser.stream().anyMatch(user -> (name.equals(user.getName()) && password.equals(user.getPassword())));
     }
     
     
     //-------------------------------------------------- SEARCH ----------------------------------------------------------
     
     public User searchUserActive(){
-        User user = null;
         
-        int i;
-        for(i = 0; i < listUser.size(); i++){
-            if(listUser.get(i).getActivity()){
-                user = listUser.get(i);
+        for(User user : listUser){
+            if(user.getActivity()){
+                return user;
             }
         }
-        
+        User user = null;
         return user;
     }
     
@@ -169,13 +228,12 @@ public class Socialnetwork {
      * @return El usuario encontrado
      */
     public User searchUser(String name){
-        int i;
-        User user = null;
-        for(i = 0; i < listUser.size();i++){
-            if(name.equals(listUser.get(i).getName())){
-                user = listUser.get(i);
+        for(User user : listUser){
+            if(name.equals(user.getName())){
+                return user;
             }
         }
+        User user = null;
         return user;
     }
     
@@ -185,13 +243,12 @@ public class Socialnetwork {
      * @return El usuario encontrado
      */
     public User searchUser(int id){
-        int i;
-        User user = null;
-        for(i = 0; i < listUser.size();i++){
-            if(id == listUser.get(i).getId()){
-                user = listUser.get(i);
+        for(User user : listUser){
+            if(id == user.getId()){
+                return user;
             }
         }
+        User user = null;
         return user;
     }
     
@@ -201,13 +258,12 @@ public class Socialnetwork {
      * @return La publicacion encontrado
      */
     public Post searchPost(int id){
-        int i;
-        Post post = null;
-        for(i = 0; i < listPost.size();i++){
-            if(id == listPost.get(i).getId()){
-                post = listPost.get(i);
+        for(Post post : listPost){
+            if(id == post.getId()){
+                return post;
             }
         }
+        Post post = null;
         return post;
     }
     
@@ -217,13 +273,12 @@ public class Socialnetwork {
      * @return El comentario encontrado
      */
     public Comment searchComment(int id){
-        int i;
-        Comment comment = null;
-        for(i = 0; i < listComment.size();i++){
-            if(id == listComment.get(i).getId()){
-                comment = listComment.get(i);
+        for(Comment comment : listComment){
+            if(id == comment.getId()){
+                return comment;
             }
         }
+        Comment comment = null;
         return comment;
     }
     

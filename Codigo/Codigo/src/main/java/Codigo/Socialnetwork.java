@@ -74,18 +74,13 @@ public class Socialnetwork {
      * Permite desconectar a una cuenta conectada en la socialnetwork
      */
     public void logout(){
-        /*
+        
         for(User user: listUser){
             if(user.getActivity()){
                 user.setActivity(false);
             }
         }
-        */
-        listUser.forEach(user -> {
-            if(user.getActivity()){
-                user.setActivity(false);
-            }
-        });
+        
     }
     
     public void post(String typePost, String content){
@@ -98,34 +93,44 @@ public class Socialnetwork {
             author.addListPost(post);
         }
     }
-    public void post(String typePost, String content, ArrayList<Integer> listIdUser){
+    public void post(String typePost, String content, ArrayList<String> listStringUser){
         
         User author = searchUserActive();
-        
         if(author != null){
             Post post = new Post(createIDPost(), author, Calendar.getInstance().getTime(), content, typePost);
             addListPost(post);
-            for(int idUser: listIdUser){
-                if(existUser(idUser)){
-                    searchUser(idUser).addListPost(post);
+            for(String nameUser: listStringUser){
+                if(existUser(nameUser)){
+                    User user = searchUser(nameUser);
+                    if(user.getFollowers().existFollow(author) && author.getFollowed().existFollow(user)){
+                        user.addListPost(post);
+                    }
+                    else{
+                        System.out.println("No se puede enviar el post a "+ user.getName() +", no se siguen mutuamente");
+                    }
                 }
                 else{
-                    System.out.println("No existe el usuario para enviarle el post");
+                    System.out.println("No existe el Usuario" + nameUser + "para enviarle el post");
                 }
             }
         }
     }
     
-    public void follow(int idUser){
+    public void follow(String name){
         User userConnect = searchUserActive();
-        if(idUser != userConnect.getId()){
-            User user = searchUser(idUser);
+        //System.out.println("Name = " + name + "\nAdming: "+ userConnect.getName() + "\n");
+        if(!name.equals(userConnect.getName())){
+            User user = searchUser(name);
 
             userConnect.getFollowed().addListFollows(user);
             user.getFollowers().addListFollows(userConnect);
         }else{
             System.out.println("No puedes seguir a ti mismo\n");
         }
+        
+    }
+    
+    public void share(int idUser){
         
     }
     

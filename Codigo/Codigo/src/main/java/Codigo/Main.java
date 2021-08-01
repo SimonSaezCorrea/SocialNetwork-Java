@@ -5,6 +5,7 @@
  */
 package Codigo;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Scanner;
 
@@ -39,26 +40,26 @@ public class Main {
         //Se añaden las preguntas
         SN.login("Simon", "123");
         SN.post("text", "Este es el primer post");
-        SN.follow(2);
-        SN.follow(3);
-        SN.follow(4);
-        SN.follow(5);
+        SN.follow("Maria");
+        SN.follow("Carlos");
+        SN.follow("Laura");
+        SN.follow("Anonimo");
         SN.logout();
         
         SN.login("Maria", "abc");
         SN.post("text", "Soy el segundo jaja");
-        SN.follow(1);
-        SN.follow(3);
-        SN.follow(4);
-        SN.follow(5);
+        SN.follow("Simon");
+        SN.follow("Carlos");
+        SN.follow("Laura");
+        SN.follow("Anonimo");
         SN.logout();
         
         SN.login("Carlos", "1a2b3c4d");
         SN.post("text", "Y bueno, ¿Ahora que?");
-        SN.follow(1);
-        SN.follow(2);
-        SN.follow(4);
-        SN.follow(5);
+        SN.follow("Simon");
+        SN.follow("Maria");
+        SN.follow("Laura");
+        SN.follow("Anonimo");
         SN.logout();
         
         SN.login("Simon", "123");
@@ -193,57 +194,100 @@ public class Main {
                         break;
                     // Funcion post
                     case 1:
+                        System.out.println("Que publicacion desea crear?\nContenido: ");
+                        content = eleccion.nextLine();
+                        
                         runCorreccion = true;
-                        System.out.println("Que tipo de publicacion desea?");
-                        System.out.println("1) Texto");
-                        System.out.println("2) Imagen");
-                        System.out.println("3) Video");
-                        System.out.println("4) Audio");
-                        System.out.println("5) Enlace");
+                        System.out.println("Para quienes va dirigido?\n");
+                        System.out.println("1) Para uno mismo\n");
+                        System.out.println("2) Para otros\n\n");
+                        
+                        System.out.println("Eleccion\n");
                         typePost_S = eleccion.nextLine();
                         typePost_I = Integer.parseInt(typePost_S);
                         while(runCorreccion){
                             switch (typePost_I){
                                 case 1:
-                                    System.out.println("Que texto desea colocar");
-                                    content = eleccion.nextLine();
                                     SN.post("Text", content);
                                     runCorreccion = false;
                                     break;
                                 case 2:
-                                    System.out.println("Que foto desea colocar");
-                                    content = eleccion.nextLine();
-                                    SN.post("Photo", content);
+                                    System.out.println("Usuarios posibles a elegir:\n");
+                                    int i = 1;
+                                    System.out.println("0) Salir\n----------------------------------\n");
+                                    for(User userEleccion: SN.getListUser()){
+                                        if(userEleccion.getFollowed().existFollow(SN.searchUserActive()) && SN.searchUserActive().getFollowed().existFollow(userEleccion)){
+                                            System.out.println(String.valueOf(i)+") Usuario: "+ userEleccion.getName() + "\n----------------------------------\n");
+                                            i++;
+                                        }
+                                    }
+                                    
+                                    i = 0;
+                                    ArrayList<String> listString = new ArrayList();
+                                    while(i < SN.getListUser().size()){
+                                        String name;
+                                        boolean esDistinto = true;
+                                        System.out.println("Que usuario eligira? (Eliga el nombre (O escriba Salir))");
+                                        name = eleccion.nextLine();
+                                        if(name.toLowerCase().equals("salir")){
+                                                i = 10;
+                                        }
+                                        else if(SN.existUser(name)){
+                                            for(String nameList: listString){
+                                                if(!nameList.equals(name)){
+                                                    esDistinto = true;
+                                                }
+                                                else{
+                                                    esDistinto = false;
+                                                    System.out.println("Eliga un id distinto, ese ya fue elegido\n");
+                                                }
+                                            }
+                                            if(esDistinto){
+                                                listString.add(name);
+                                                i++;
+                                            }
+                                        }
+                                        else{
+                                            System.out.println("Eliga un id existente\n");
+                                        }
+                                    }
+
+                                    for(String algo: listString){
+                                        System.out.println("Name: " + algo + "\n");
+                                    }
+                                    SN.post("Text", content, listString);
                                     runCorreccion = false;
                                     break;
-                                case 3:
-                                    System.out.println("Que video desea colocar");
-                                    content = eleccion.nextLine();
-                                    SN.post("Video", content);
-                                    runCorreccion = false;
-                                    break;
-                                case 4:
-                                    System.out.println("Que audio desea colocar");
-                                    content = eleccion.nextLine();
-                                    SN.post("Audio", content);
-                                    runCorreccion = false;
-                                    break;
-                                case 5:
-                                    System.out.println("Que enlace desea colocar");
-                                    content = eleccion.nextLine();
-                                    SN.post("Link", content);
-                                    runCorreccion = false;
-                                    break;
+
+                                
                                 default:
                                     System.out.println("Error, no eligio correctamente");
                                     break;
                             }
                         }
-                        
-                        content = eleccion.nextLine();
                         break;
                     // Funcion follow
                     case 2:
+                        System.out.println("Usuarios posibles a elegir:\n");
+                        
+                        boolean existe = false;
+                        for(User userEleccion: SN.getListUser()){
+                            for(User userListFollow :SN.searchUserActive().getFollowed().getListFollows()){
+                                if(userListFollow.getName().equals(userEleccion.getName())){
+                                    existe = true;
+                                }
+                            }
+                            if(!existe){
+                                System.out.println(String.valueOf(userEleccion.getId())+") Usuario: "+ userEleccion.getName() + "\n----------------------------------\n");
+                            }
+                            
+                            String name;
+                            System.out.println("Que usuario eligira? (Eliga su numero)");
+                            name = eleccion.nextLine();
+                            SN.follow(name);
+                        }
+                        
+                        
                         break;
                     // Funcion share
                     case 3:

@@ -25,6 +25,16 @@ public class Follows {
         this.listFollows = listFollows;
     }
 
+    public boolean existFollow(User user){
+        
+        for(User isUser: getListFollows()){
+            if(isUser.equals(user)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public int getAmountFollows() {
         return amountFollows;
     }

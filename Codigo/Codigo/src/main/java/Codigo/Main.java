@@ -224,31 +224,27 @@ public class Main {
                                     
                                     i = 0;
                                     ArrayList<String> listString = new ArrayList();
-                                    while(i < SN.getListUser().size()){
+                                    while(i == 0){
                                         String name;
                                         boolean esDistinto = true;
                                         System.out.println("Que usuario eligira? (Eliga el nombre (O escriba Salir))");
                                         name = eleccion.nextLine();
                                         if(name.toLowerCase().equals("salir")){
-                                                i = 10;
+                                                i = 1;
                                         }
                                         else if(SN.existUser(name)){
                                             for(String nameList: listString){
-                                                if(!nameList.equals(name)){
-                                                    esDistinto = true;
-                                                }
-                                                else{
+                                                if(nameList.equals(name)){
                                                     esDistinto = false;
-                                                    System.out.println("Eliga un id distinto, ese ya fue elegido\n");
+                                                    System.out.println("Eliga un user distinto, ese ya fue elegido\n");
                                                 }
                                             }
                                             if(esDistinto){
                                                 listString.add(name);
-                                                i++;
                                             }
                                         }
                                         else{
-                                            System.out.println("Eliga un id existente\n");
+                                            System.out.println("Eliga un user existente\n");
                                         }
                                     }
 
@@ -268,22 +264,31 @@ public class Main {
                         break;
                     // Funcion follow
                     case 2:
-                        System.out.println("Usuarios posibles a elegir:\n");
                         
+                        System.out.println("Usuarios posibles a elegir:\n");
+                        System.out.println("0) Salir\n----------------------------------\n");
                         boolean existe = false;
+                        int i = 1;
                         for(User userEleccion: SN.getListUser()){
-                            for(User userListFollow :SN.searchUserActive().getFollowed().getListFollows()){
-                                if(userListFollow.getName().equals(userEleccion.getName())){
+                            if(userEleccion.getName().equals(SN.searchUserActive().getName())){
                                     existe = true;
+                                }
+                            else{
+                                for(User userListFollow :SN.searchUserActive().getFollowed().getListFollows()){
+                                    if(userListFollow.getName().equals(userEleccion.getName())){
+                                        existe = true;
+                                    }
                                 }
                             }
                             if(!existe){
-                                System.out.println(String.valueOf(userEleccion.getId())+") Usuario: "+ userEleccion.getName() + "\n----------------------------------\n");
+                                System.out.println(String.valueOf(i)+") Usuario: "+ userEleccion.getName() + "\n----------------------------------\n");
+                                i++;
                             }
-                            
-                            String name;
-                            System.out.println("Que usuario eligira? (Eliga su numero)");
-                            name = eleccion.nextLine();
+                        }
+                        String name;
+                        System.out.println("Que usuario eligira? (Elige el nombre, en caso de salir escriba 'Salir')");
+                        name = eleccion.nextLine();
+                        if(!name.toLowerCase().equals("salir")){
                             SN.follow(name);
                         }
                         

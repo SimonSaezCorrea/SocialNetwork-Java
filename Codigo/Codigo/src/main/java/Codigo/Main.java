@@ -199,6 +199,7 @@ public class Main {
                         
                         runCorreccion = true;
                         System.out.println("Para quienes va dirigido?\n");
+                        System.out.println("0) Cancelar\n");
                         System.out.println("1) Para uno mismo\n");
                         System.out.println("2) Para otros\n\n");
                         
@@ -207,6 +208,9 @@ public class Main {
                         typePost_I = Integer.parseInt(typePost_S);
                         while(runCorreccion){
                             switch (typePost_I){
+                                case 0:
+                                    runCorreccion = false;
+                                    break;
                                 case 1:
                                     SN.post("Text", content);
                                     runCorreccion = false;
@@ -247,15 +251,12 @@ public class Main {
                                             System.out.println("Eliga un user existente\n");
                                         }
                                     }
-
                                     for(String algo: listString){
                                         System.out.println("Name: " + algo + "\n");
                                     }
                                     SN.post("Text", content, listString);
                                     runCorreccion = false;
                                     break;
-
-                                
                                 default:
                                     System.out.println("Error, no eligio correctamente");
                                     break;
@@ -296,6 +297,96 @@ public class Main {
                         break;
                     // Funcion share
                     case 3:
+                        System.out.println("Que publicacion desea elegir?\n");
+                        System.out.println("0) Salir\n----------------------------------\n");
+                        for(Post mostrarPost: SN.getListPost()){
+                            System.out.println(String.valueOf(mostrarPost.getId())+") Contenido: "+ mostrarPost.getContent()+ "\n----------------------------------\n");
+                        }
+                        
+                        runCorreccion = true;
+                        boolean ejecucion = false;
+                        while(runCorreccion){
+                            typePost_S = eleccion.nextLine();
+                            typePost_I = Integer.parseInt(typePost_S);
+                            if(typePost_I == 0){
+                                runCorreccion = false;
+                            }
+                            else if(typePost_I > 0 && typePost_I <= SN.getListPost().size()){
+                                ejecucion = true;
+                                runCorreccion = false;
+                            }
+                            else{
+                                System.out.println("No se eligio un post existente\n");
+                            }
+                        }
+                        if(ejecucion){
+                            runCorreccion = true;
+                            System.out.println("Para quienes va dirigido?\n");
+                            System.out.println("0) Cancelar\n");
+                            System.out.println("1) Para uno mismo\n");
+                            System.out.println("2) Para otros\n\n");
+
+                            System.out.println("Eleccion\n");
+                            typePost_S = eleccion.nextLine();
+                            typePost_I = Integer.parseInt(typePost_S);
+                            ArrayList<String> listUsers = new ArrayList();
+                            while(runCorreccion){
+                                switch (typePost_I){
+                                    case 0:
+                                        runCorreccion = false;
+                                        break;
+                                    case 1:
+                                        listUsers.add(SN.searchUserActive().getName());
+                                        SN.share(typePost_I, listUsers);
+                                        runCorreccion = false;
+                                        break;
+                                    case 2:
+                                        System.out.println("Usuarios posibles a elegir:\n");
+                                        i = 1;
+                                        System.out.println("0) Salir\n----------------------------------\n");
+                                        for(User userEleccion: SN.getListUser()){
+                                            if(userEleccion.getFollowed().existFollow(SN.searchUserActive()) && SN.searchUserActive().getFollowed().existFollow(userEleccion)){
+                                                System.out.println(String.valueOf(i)+") Usuario: "+ userEleccion.getName() + "\n----------------------------------\n");
+                                                i++;
+                                            }
+                                        }
+
+                                        i = 0;
+                                        while(i == 0){
+                                            boolean esDistinto = true;
+                                            System.out.println("Que usuario eligira? (Eliga el nombre (O escriba Salir))");
+                                            name = eleccion.nextLine();
+                                            if(name.toLowerCase().equals("salir")){
+                                                    i = 1;
+                                            }
+                                            else if(SN.existUser(name)){
+                                                for(String nameList: listUsers){
+                                                    if(nameList.equals(name)){
+                                                        esDistinto = false;
+                                                        System.out.println("Eliga un user distinto, ese ya fue elegido\n");
+                                                    }
+                                                }
+                                                if(esDistinto){
+                                                    listUsers.add(name);
+                                                }
+                                            }
+                                            else{
+                                                System.out.println("Eliga un user existente\n");
+                                            }
+                                        }
+                                        for(String algo: listUsers){
+                                            System.out.println("Name: " + algo + "\n");
+                                        }
+                                        SN.share(typePost_I, listUsers);
+                                        runCorreccion = false;
+                                        break;
+                                    default:
+                                        System.out.println("Error, no eligio correctamente");
+                                        break;
+                                }
+                            }
+                        }
+                        
                         break;
                     // Funcion visualize
                     case 4:

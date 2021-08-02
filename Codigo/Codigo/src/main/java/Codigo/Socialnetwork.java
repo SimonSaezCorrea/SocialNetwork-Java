@@ -130,8 +130,26 @@ public class Socialnetwork {
         
     }
     
-    public void share(int idUser){
-        
+    public void share(int idPost, ArrayList<String> listUser){
+        Post post = searchPost(idPost);
+        for(String nameUser: listUser){
+            if(existUser(nameUser)){
+                User user = searchUser(nameUser);
+                if(user.getName().equals(searchUserActive().getName())){
+                    user.addListPostShare(post);
+                }
+                else if(user.getFollowers().existFollow(searchUserActive()) && searchUserActive().getFollowed().existFollow(user)){
+                    user.addListPostShare(post);
+                }                
+                else{
+                    System.out.println("No se puede compartir, no se siguen mutuamente");
+                }
+            }
+            else{
+                System.out.println("No existe el usuario " + nameUser + "\n");
+            }
+            
+        }
     }
     
     public void visualize(){

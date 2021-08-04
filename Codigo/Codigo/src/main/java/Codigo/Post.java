@@ -56,7 +56,7 @@ public class Post extends Information{
             for(Comment comment: getListComment()){
                 string = string + 
                         "..................................................\n" +
-                        comment.ToString() +
+                        comment.ToString("          ") +
                         "..................................................\n";
             }
         }

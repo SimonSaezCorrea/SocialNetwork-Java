@@ -22,22 +22,22 @@ public class Comment extends Information{
         super(id, author, date, content, listComment, like, listLike);
     }
     
-    public String ToString(){
+    public String ToString(String bloques){
         String string = "";
         
         string = string + 
-                "            Autor: " + getAuthor().getName() +
-                "\n            Contenido: " + getContent() + 
-                "\n            Like: " + String.valueOf(getLike()) + "\n" +
-                "\n            Comentarios: \n";
+                bloques + "Autor: " + getAuthor().getName() +
+                "\n" + bloques + "Contenido: " + getContent() + 
+                "\n" + bloques + "Like: " + String.valueOf(getLike())+
+                "\n" + bloques + "Comentarios: \n";
         
         if(getListComment().isEmpty()){
-            string = string + "               <No hay comentarios>\n";
+            string = string + bloques + "     <No hay comentarios>\n";
         }else{
             for(Comment comment: getListComment()){
                 string = string + 
                         "..................................................\n" +
-                        comment.ToString() +
+                        comment.ToString(bloques + "     ") +
                         "..................................................\n";
             }
         }

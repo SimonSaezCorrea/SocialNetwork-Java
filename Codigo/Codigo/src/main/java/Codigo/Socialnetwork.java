@@ -75,11 +75,7 @@ public class Socialnetwork {
      */
     public void logout(){
         
-        for(User user: listUser){
-            if(user.getActivity()){
-                user.setActivity(false);
-            }
-        }
+        searchUserActive().setActivity(false);
         
     }
     
@@ -180,6 +176,18 @@ public class Socialnetwork {
     
     private void PrintSocialNetwork(String string){
         System.out.println(string);
+    }
+    
+    
+    public void comment(Post post, String text){
+        Comment comment = new Comment(createIDComment(), searchUserActive(), Calendar.getInstance().getTime(), text);
+        addListComment(comment);
+        post.addListComment(comment);
+    }
+    public void comment(Comment comment, String text){
+        Comment commentComment = new Comment(createIDComment(), searchUserActive(), Calendar.getInstance().getTime(), text);
+        addListComment(comment);
+        comment.addListComment(commentComment);
     }
     
     //--------------------------------------------------- CREACION ID -------------------------------------------------------

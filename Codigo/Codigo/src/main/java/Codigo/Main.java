@@ -394,6 +394,62 @@ public class Main {
                         break;
                     // Funcion comment
                     case 5:
+                        System.out.println("Que publicacion desea elegir? (Elija su id)\n");
+                        System.out.println("0) Salir\n----------------------------------\n");
+                        for(Post mostrarPost: SN.getListPost()){
+                            if((SN.searchUser(mostrarPost.getAuthor().getName()).getFollowers().existFollow(SN.searchUserActive()) && 
+                                    SN.searchUser(mostrarPost.getAuthor().getName()).getFollowed().existFollow(SN.searchUserActive())) || 
+                                    SN.searchUserActive().equals(mostrarPost.getAuthor())){
+                                System.out.println(String.valueOf(mostrarPost.getId())+") Contenido: "+ mostrarPost.getContent()+ "\n----------------------------------\n");
+                            }
+                        }
+                        runCorreccion = true;
+                        ejecucion = false;
+                        Post postComentar = null;
+                        while(runCorreccion){
+                            typePost_S = eleccion.nextLine();
+                            typePost_I = Integer.parseInt(typePost_S);
+                            if(typePost_I == 0){
+                                runCorreccion = false;
+                            }
+                            else if(typePost_I > 0 && typePost_I <= SN.getListPost().size()){
+                                ejecucion = true;
+                                postComentar = SN.searchPost(typePost_I);
+                                runCorreccion = false;
+                            }
+                            else{
+                                System.out.println("No se eligio un post existente\n");
+                            }
+                        }
+                        
+                        if(ejecucion){
+                            System.out.println("Que comentario desea elegir? (Elija su id)\n");
+                            System.out.println("0) Ninguno\n----------------------------------\n");
+                            for(Comment mostrarComment: postComentar.getListComment()){
+                                System.out.println(String.valueOf(mostrarComment.getId())+") Contenido: "+ mostrarComment.getContent()+ "\n----------------------------------\n");
+                            }
+                            runCorreccion = true;
+                            while(runCorreccion){
+                                typePost_S = eleccion.nextLine();
+                                typePost_I = Integer.parseInt(typePost_S);
+                                if(typePost_I == 0){
+                                    System.out.println("Que desea comentar?\n");
+                                    content = eleccion.nextLine();
+                                    SN.comment(postComentar, content);
+                                    runCorreccion = false;
+                                }
+                                else if(typePost_I > 0 && typePost_I <= SN.getListPost().size()){
+                                    Comment commentComentar = SN.searchComment(typePost_I);
+                                    System.out.println("Que desea comentar?\n");
+                                    content = eleccion.nextLine();
+                                    SN.comment(commentComentar, content);
+                                    runCorreccion = false;
+                                }
+                                else{
+                                    System.out.println("No se eligio un comentario existente\n");
+                                }
+                            }
+                        }
                         break;
                     // Funcion like
                     case 6:

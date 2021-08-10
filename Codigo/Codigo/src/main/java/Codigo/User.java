@@ -41,31 +41,6 @@ public class User {
         followed = new Follows();
         followers = new Follows();
     }
-
-    /**
-     * Constructor.
-     * @param id El id del usuario.
-     * @param name El nombre del usuario.
-     * @param password La contraseña del usuario.
-     * @param activity La actividad del usuario, si está activo o no.
-     * @param listPost El arreglo de publicaciones del usuario.
-     * @param listPostShare El arreglo de publicaciones compartidas del usuario.
-     * @param date La fecha de creacion del usuario.
-     * @param followed Las personas que sigue el usuario.
-     * @param followers Las personas que siguen al usuario.
-     */
-    public User(int id, String name, String password, boolean activity, ArrayList<Post> listPost, ArrayList<PostShare> listPostShare, Date date, Follows followed, Follows followers) {
-        this.id = id;
-        this.name = name;
-        this.password = password;
-        this.activity = activity;
-        this.listPost = listPost;
-        this.listPostShare = listPostShare;
-        this.date = date;
-        this.followed = followed;
-        this.followers = followers;
-    }
-    
     
     //--------------------------------------------- GET and SET --------------------------------------------------
 

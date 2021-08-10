@@ -27,18 +27,21 @@ public class Main {
         //Se añaden los usuarios
         SN.register("Simon", "123");
         SN.logout();
+        
         SN.register("Maria", "abc");
         SN.logout();
+        
         SN.register("Carlos", "1a2b3c4d");
         SN.logout();
+        
         SN.register("Laura", "contraseña");
         SN.logout();
-        SN.register("Anonimo", "*****");
+        
+        SN.register("Anonimo", "****");
         SN.logout();
         
-        //Se añaden las preguntas y se hacen follows a su vez
+        //Se hacen los follows
         SN.login("Simon", "123");
-        SN.post("text", "Este es el primer post");
         SN.follow("Maria");
         SN.follow("Carlos");
         SN.follow("Laura");
@@ -46,7 +49,6 @@ public class Main {
         SN.logout();
         
         SN.login("Maria", "abc");
-        SN.post("text", "Soy el segundo jaja");
         SN.follow("Simon");
         SN.follow("Carlos");
         SN.follow("Laura");
@@ -54,29 +56,135 @@ public class Main {
         SN.logout();
         
         SN.login("Carlos", "1a2b3c4d");
-        SN.post("text", "Y bueno, ¿Ahora que?");
         SN.follow("Simon");
         SN.follow("Maria");
         SN.follow("Laura");
         SN.follow("Anonimo");
         SN.logout();
         
-        SN.login("Simon", "123");
-        SN.post("text", "Se va avanzando");
+        SN.login("Laura", "contraseña");
+        SN.follow("Simon");
+        SN.follow("Maria");
+        SN.follow("Carlos");
+        SN.follow("Anonimo");
         SN.logout();
         
-        SN.login("Simon", "123");
-        SN.post("text", "Ya van siendo varios post de la gente, fantastico");
+        SN.login("Anonimo", "****");
+        SN.follow("Simon");
+        SN.follow("Maria");
+        SN.follow("Carlos");
+        SN.follow("Laura");
         SN.logout();
         
-        //Se añaden los comentarios
         
-        //Se crean los comentarios iniciales de la socialnetwork
-        /* Comment comment1 = new Comment(1, user1, Calendar.getInstance().getTime(), "Este es el primer comentario");
-        Comment comment2 = new Comment(2, user4, Calendar.getInstance().getTime(), "Y yo el segundo comentario jeje");
-        Comment comment3 = new Comment(3, user5, Calendar.getInstance().getTime(), "Lastima no poder comentar con una foto");
-        Comment comment4 = new Comment(4, user5, Calendar.getInstance().getTime(), "Animo!");
-        Comment comment5 = new Comment(5, user2, Calendar.getInstance().getTime(), "Se progresa rapido (?");*/
+        // Se hacen los post a su misma cuenta
+        SN.login("Simon", "123");
+        SN.post("text", "Este es el primer post");
+        SN.logout();
+        
+        SN.login("Maria", "abc");
+        SN.post("text", "Este es el segundo post");
+        SN.logout();
+        
+        SN.login("Carlos", "1a2b3c4d");
+        SN.post("text", "Este es el tercer post");
+        SN.logout();
+        
+        SN.login("Laura", "contraseña");
+        SN.post("text", "Este es el cuarto post");
+        SN.logout();
+        
+        SN.login("Anonimo", "****");
+        SN.post("text", "Este es el quinto post");
+        SN.logout();
+        
+        // Se hacen post a cuentas de otros
+        ArrayList<String> users = new ArrayList();
+        
+        users.add("Maria");
+        users.add("Carlos");
+        users.add("Laura");
+        users.add("Anonimo");
+        SN.login("Simon", "123");
+        SN.post("text", "Este es el primer post dirijido a otros", users);
+        SN.logout();
+        
+        users.clear();
+        users.add("Carlos");
+        users.add("Laura");
+        users.add("Anonimo");
+        SN.login("Maria", "abc");
+        SN.post("text", "Este es el segundo post dirijido a otros", users);
+        SN.logout();
+        
+        users.clear();
+        users.add("Laura");
+        users.add("Anonimo");
+        SN.login("Carlos", "1a2b3c4d");
+        SN.post("text", "Este es el tercer post dirijido a otros", users);
+        SN.logout();
+        
+        users.clear();
+        users.add("Anonimo");
+        SN.login("Laura", "contraseña");
+        SN.post("text", "Este es el cuarto post dirijido a otros", users);
+        SN.logout();
+        
+        // Se hacen los comentarios a publicaciones
+        Post publicaciones;
+        
+        SN.login("Simon", "123");
+        publicaciones = SN.searchPost(1);
+        SN.comment(publicaciones, "Este es el primer comentario a un post");
+        SN.logout();
+        
+        SN.login("Maria", "abc");
+        publicaciones = SN.searchPost(2);
+        SN.comment(publicaciones, "Este es el segundo comentario a un post");
+        SN.logout();
+        
+        SN.login("Carlos", "1a2b3c4d");
+        publicaciones = SN.searchPost(3);
+        SN.comment(publicaciones, "Este es el tercer comentario a un post");
+        SN.logout();
+        
+        SN.login("Laura", "contraseña");
+        publicaciones = SN.searchPost(4);
+        SN.comment(publicaciones, "Este es el cuarto comentario a un post");
+        SN.logout();
+        
+        SN.login("Anonimo", "****");
+        publicaciones = SN.searchPost(5);
+        SN.comment(publicaciones, "Este es el quinto comentario a un post");
+        SN.logout();
+        
+        // Se hacen los comentarios a comentarios
+        Comment comentarios;
+        
+        SN.login("Simon", "123");
+        comentarios = SN.searchComment(1);
+        SN.comment(comentarios, "Este es el primer comentario a un comentario");
+        SN.logout();
+        
+        SN.login("Maria", "abc");
+        comentarios = SN.searchComment(2);
+        SN.comment(comentarios, "Este es el segundo comentario a un comentario");
+        SN.logout();
+        
+        SN.login("Carlos", "1a2b3c4d");
+        comentarios = SN.searchComment(3);
+        SN.comment(comentarios, "Este es el tercer comentario a un comentario");
+        SN.logout();
+        
+        SN.login("Laura", "contraseña");
+        comentarios = SN.searchComment(4);
+        SN.comment(comentarios, "Este es el cuarto comentario a un comentario");
+        SN.logout();
+        
+        SN.login("Anonimo", "****");
+        comentarios = SN.searchComment(5);
+        SN.comment(comentarios, "Este es el quinto comentario a un comentario");
+        SN.logout();
         
         //-----------------------------------------------------------------------------------------------------------------
         // Se inicia con la interfaz de uso
@@ -199,7 +307,7 @@ public class Main {
                 System.out.println("3) Compartir una publicacion");
                 System.out.println("4) Visualizar la red social");
                 System.out.println("5) Comentar una publicacion");
-                System.out.println("6) Dar like a una publicacion   (Proximamente)");
+                System.out.println("6) Dar like a una publicacion");
                 System.out.println("7) Cerrar sesion");
                 System.out.println("----------------------");
 
@@ -510,6 +618,7 @@ public class Main {
                             System.out.println("0) Ninguno\n----------------------------------\n");
                             for(Comment mostrarComment: postComentar.getListComment()){
                                 System.out.println(String.valueOf(mostrarComment.getId())+") Contenido: "+ mostrarComment.getContent()+ "\n----------------------------------\n");
+                                mostrarComentarios(mostrarComment);
                             }
                             
                             // Comienza el ciclo de eleccion
@@ -529,7 +638,7 @@ public class Main {
                                     runCorreccion = false; // Termino con exito la operacion
                                 }
                                 // Elige un comentario
-                                else if(typePost_I > 0 && typePost_I <= SN.getListPost().size()){
+                                else if(typePost_I > 0 && typePost_I <= SN.getListComment().size()){
                                     // Pido el comentario que hará
                                     commentComentar = SN.searchComment(typePost_I);
                                     System.out.println("Que desea comentar?\n");
@@ -547,6 +656,82 @@ public class Main {
                         break;
                     // Funcion like
                     case 6:
+                        // Mostrar los post a dar like
+                        System.out.println("Que publicacion desea elegir? (Elija su id)\n");
+                        System.out.println("0) Salir\n----------------------------------\n");
+                        
+                        // Recorro la lista de publicaciones
+                        for(Post mostrarPost: SN.getListPost()){
+                            // Pregunto si el autor de ese post sigue al usuario activo y de manera viceversa tambien o si el autor es el usuario activo
+                            if((SN.searchUser(mostrarPost.getAuthor().getName()).getFollowers().existFollow(SN.searchUserActive()) && 
+                                    SN.searchUser(mostrarPost.getAuthor().getName()).getFollowed().existFollow(SN.searchUserActive())) || 
+                                    SN.searchUserActive().equals(mostrarPost.getAuthor())){
+                                System.out.println(String.valueOf(mostrarPost.getId())+") Contenido: "+ mostrarPost.getContent()+ "\n----------------------------------\n");
+                            }
+                        }
+                        
+                        // Inicio la eleccion de la pregunta
+                        runCorreccion = true;
+                        ejecucion = false;
+                        postComentar = null;
+                        while(runCorreccion){
+                            //Pido los datos
+                            typePost_S = eleccion.nextLine();
+                            typePost_I = Integer.parseInt(typePost_S);
+                            
+                            //Cancela la operacion
+                            if(typePost_I == 0){
+                                runCorreccion = false;
+                            }
+                            //Elige una pregunta existente
+                            else if(typePost_I > 0 && typePost_I <= SN.getListPost().size()){
+                                ejecucion = true; // Inicio el nivel de ejecucion
+                                postComentar = SN.searchPost(typePost_I); // Busco el post
+                                runCorreccion = false; // Termino la eleccion de preguntas
+                            }
+                            //Elige una opcion no existente
+                            else{
+                                System.out.println("No se eligio un post existente\n");
+                            }
+                        }
+                        
+                        // Comienza la segunda fase
+                        if(ejecucion){
+                            //Muestro los comentarios existentes en ese post
+                            System.out.println("Que comentario desea elegir? (Elija su id)\n");
+                            System.out.println("0) Ninguno\n----------------------------------\n");
+                            for(Comment mostrarComment: postComentar.getListComment()){
+                                System.out.println(String.valueOf(mostrarComment.getId())+") Contenido: "+ mostrarComment.getContent()+ "\n----------------------------------\n");
+                                mostrarComentarios(mostrarComment);
+                            }
+                            
+                            // Comienza el ciclo de eleccion
+                            runCorreccion = true;
+                            while(runCorreccion){
+                                // Pido los datos
+                                typePost_S = eleccion.nextLine();
+                                typePost_I = Integer.parseInt(typePost_S);
+                                
+                                // No elige un comentario
+                                if(typePost_I == 0){
+                                    // Pido el comentario que hará
+                                    
+                                    SN.like(postComentar); // Llamo al metodo comment y efectuo la operacion
+                                    runCorreccion = false; // Termino con exito la operacion
+                                }
+                                // Elige un comentario
+                                else if(typePost_I > 0 && typePost_I <= SN.getListComment().size()){
+                                    // Pido el comentario que hará
+                                    commentComentar = SN.searchComment(typePost_I);
+                                    SN.like(commentComentar); // Llamo al metodo comment y efectuo la operacion
+                                    runCorreccion = false; // Termino con exito la operacion
+                                }
+                                // Eleccion no existente
+                                else{
+                                    System.out.println("No se eligio un comentario existente\n");
+                                }
+                            }
+                        }
                         break;
                     // Funcion logout
                     case 7:
@@ -564,4 +749,13 @@ public class Main {
         
     }
     
+    
+    static void mostrarComentarios(Comment comentarios){
+        if(!comentarios.getListComment().isEmpty()){
+            for(Comment mostrarComment: comentarios.getListComment()){
+                System.out.println(String.valueOf(mostrarComment.getId())+") Contenido: "+ mostrarComment.getContent()+ "\n----------------------------------\n");
+                mostrarComentarios(mostrarComment);
+            }
+        }
+    }
 }

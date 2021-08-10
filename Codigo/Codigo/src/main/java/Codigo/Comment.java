@@ -9,19 +9,27 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- *
- * @author Equipo
+ * Es una clase que permite representar a un comentario
+ * @author Simon Saez
  */
 public class Comment extends Information{
 
+    /**
+     * Constructor
+     * @param id El id del comentario
+     * @param author El autor del comentario
+     * @param date La fecha de creacion del comentario
+     * @param content El contenido del comentario
+     */
     public Comment(int id, User author, Date date, String content) {
         super(id, author, date, content);
     }
-
-    public Comment(int id, User author, Date date, String content, ArrayList<Comment> listComment, int like, ArrayList<Like> listLike) {
-        super(id, author, date, content, listComment, like, listLike);
-    }
     
+    /**
+     * Metodo que permite pasar a string el contenido de la clase
+     * @param bloques Es la cantidad de espacios que debe haber para mostrar con identacion
+     * @return Un string que muestra la clase
+     */
     public String ToString(String bloques){
         String string = "";
         

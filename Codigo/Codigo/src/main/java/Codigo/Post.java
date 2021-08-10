@@ -9,39 +9,61 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- *
- * @author Equipo
+ * Es una clase que permite representar a una publicacion
+ * @author Simon Saez
  */
 public class Post extends Information{
-    private String typePost;
-    private int amountShare;
+    private String typePost; // Determina el tipo de publicacion
+    private int amountShare; // Cantidad de veces compartida
 
+    /**
+     * Constructor
+     * @param id El id del usuario
+     * @param author El creador de la publicacion
+     * @param date La fecha de creacion
+     * @param content El contenido
+     * @param typePost El tipo de post
+     */
     public Post(int id, User author, Date date, String content, String typePost) {
         super(id, author, date, content);
         this.typePost = typePost;
         this.amountShare = 0;
     }
 
-    public Post(int id, User author, Date date, String content, ArrayList<Comment> listComment, int like, ArrayList<Like> listLike, String typePost, int amountShare) {
-        super(id, author, date, content, listComment, like, listLike);
-        this.typePost = typePost;
-        this.amountShare = amountShare;
-    }
-
+    /**
+     * Metodo que permite recoger el tipo de la publicacion
+     * @return El tipo de la publicacion
+     */
     public String getTypePost() {
         return typePost;
     }
+    /**
+     * Metodo que permite cambiar el tipo de publicacion
+     * @param typePost El tipo de publicacion a cambiar
+     */
     public void setTypePost(String typePost) {
         this.typePost = typePost;
     }
 
+    /**
+     * Metodo que permite recoger la cantidad de compartidas
+     * @return La cantidad de veces compartida
+     */
     public int getAmountShare() {
         return amountShare;
     }
+    /**
+     * Metodo que permite cambiar la cantidad de compartidas
+     * @param amountShare La cantidad de compartidas
+     */
     public void setAmountShare(int amountShare) {
         this.amountShare = amountShare;
     }
     
+    /**
+     * Metodo que permite pasar a string el contenido de la clase post
+     * @return Un string donde esta todo el contenido de la clase post
+     */
     public String ToString(){
         String string = "";
         string = string + 

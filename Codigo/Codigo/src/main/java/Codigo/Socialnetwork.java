@@ -35,22 +35,6 @@ public class Socialnetwork {
         this.listComment = new ArrayList();
     }
     
-    /**
-     * Constructor.
-     * @param name Nombre de la socialnetwork.
-     * @param date Fecha de creacion de la socialnetwork.
-     * @param listUser Arreglo de usuarios.
-     * @param listPost Arreglo de publicaciones.
-     * @param listComment Arreglo de comentarios.
-     */
-    public Socialnetwork(String name, Date date, ArrayList<User> listUser, ArrayList<Post> listPost, ArrayList<Comment> listComment) {
-        this.name = name;
-        this.date = date;
-        this.listUser = listUser;
-        this.listPost = listPost;
-        this.listComment = listComment;
-    }
-    
     //------------------------------------- ACCIONABLE -------------------------------------------------------
     
     /**
@@ -146,6 +130,7 @@ public class Socialnetwork {
      * @param name El nombre del usuario a seguir.
      */
     public void follow(String name){
+        
         User userConnect = searchUserActive();
         //System.out.println("Name = " + name + "\nAdming: "+ userConnect.getName() + "\n");
         if(!name.equals(userConnect.getName())){
@@ -246,8 +231,25 @@ public class Socialnetwork {
      */
     public void comment(Comment comment, String text){
         Comment commentComment = new Comment(createIDComment(), searchUserActive(), Calendar.getInstance().getTime(), text);
-        addListComment(comment);
+        addListComment(commentComment);
         comment.addListComment(commentComment);
+    }
+    
+    /**
+     * Metodo que permite dar like a un comentario
+     * @param comment El comentario a dar like
+     */
+    public void like(Comment comment){
+        Like like = new Like(comment.creatIdLike(), Calendar.getInstance().getTime(), searchUserActive());
+        comment.addListLike(like);
+    }
+    /**
+     * Metodo que permite dar like a una publicacion
+     * @param post La publicacion a dar like
+     */
+    public void like(Post post){
+        Like like = new Like(post.creatIdLike(), Calendar.getInstance().getTime(), searchUserActive());
+        post.addListLike(like);
     }
     
     //--------------------------------------------------- CREACION ID -------------------------------------------------------

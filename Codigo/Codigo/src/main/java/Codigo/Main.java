@@ -449,7 +449,11 @@ public class Main {
                         System.out.println("0) Salir\n----------------------------------\n");
                         // Recorro la lista de publicaciones y muestro la publicacion
                         for(Post mostrarPost: SN.getListPost()){
-                            System.out.println(String.valueOf(mostrarPost.getId())+") Contenido: "+ mostrarPost.getContent()+ "\n----------------------------------\n");
+                            if((SN.searchUser(mostrarPost.getAuthor().getName()).getFollowers().existFollow(SN.searchUserActive()) && 
+                                    SN.searchUser(mostrarPost.getAuthor().getName()).getFollowed().existFollow(SN.searchUserActive())) || 
+                                    SN.searchUserActive().equals(mostrarPost.getAuthor())){
+                                System.out.println(String.valueOf(mostrarPost.getId())+") Contenido: "+ mostrarPost.getContent()+ "\n----------------------------------\n");
+                            }
                         }
                         
                         runCorreccion = true;
@@ -618,7 +622,7 @@ public class Main {
                             System.out.println("0) Ninguno\n----------------------------------\n");
                             for(Comment mostrarComment: postComentar.getListComment()){
                                 System.out.println(String.valueOf(mostrarComment.getId())+") Contenido: "+ mostrarComment.getContent()+ "\n----------------------------------\n");
-                                mostrarComentarios(mostrarComment);
+                                mostrarComment.mostrarComentarios();
                             }
                             
                             // Comienza el ciclo de eleccion
@@ -702,7 +706,7 @@ public class Main {
                             System.out.println("0) Ninguno\n----------------------------------\n");
                             for(Comment mostrarComment: postComentar.getListComment()){
                                 System.out.println(String.valueOf(mostrarComment.getId())+") Contenido: "+ mostrarComment.getContent()+ "\n----------------------------------\n");
-                                mostrarComentarios(mostrarComment);
+                                mostrarComment.mostrarComentarios();
                             }
                             
                             // Comienza el ciclo de eleccion
@@ -750,12 +754,4 @@ public class Main {
     }
     
     
-    static void mostrarComentarios(Comment comentarios){
-        if(!comentarios.getListComment().isEmpty()){
-            for(Comment mostrarComment: comentarios.getListComment()){
-                System.out.println(String.valueOf(mostrarComment.getId())+") Contenido: "+ mostrarComment.getContent()+ "\n----------------------------------\n");
-                mostrarComentarios(mostrarComment);
-            }
-        }
-    }
 }

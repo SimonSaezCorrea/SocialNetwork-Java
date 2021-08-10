@@ -15,7 +15,7 @@ import java.util.Date;
  * Ademas de que contiene usuarios, publicaciones y comentarios.
  * @author Simon Saez
  */
-public class Socialnetwork {
+public class Socialnetwork implements Accionable{
     private String name; // Nombre de la socialnetwork
     private Date date; // Fecha de creacion
     private ArrayList<User> listUser; // Lista de usuarios que contiene la socialnetwork
@@ -286,14 +286,20 @@ public class Socialnetwork {
      * @return Una sentencia para saber si existe.
      */
     public boolean existUser(String name){
+        
+        int i;
+        for(i = 0; i < listUser.size(); i++){
+            if(name.equals(listUser.get(i).getName())){
+                return true;
+            }
+        }
+        
         for(User user: listUser){
             if(name.equals(user.getName())){
                 return true;
             }
         }
-        return false;
-        
-        //return listUser.stream().anyMatch(user -> (name.equals(user.getName())));
+        return false;                                   
     }
     
     /**

@@ -53,4 +53,13 @@ public class Comment extends Information{
         return string;
     }
     
+    public void mostrarComentarios(){
+        if(!getListComment().isEmpty()){
+            for(Comment mostrarComment: getListComment()){
+                System.out.println(String.valueOf(mostrarComment.getId())+") Contenido: "+ mostrarComment.getContent()+ "\n----------------------------------\n");
+                mostrarComment.mostrarComentarios();
+            }
+        }
+    }
+    
 }

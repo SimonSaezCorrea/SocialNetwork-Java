@@ -47,9 +47,10 @@ public class Socialnetwork implements Accionable{
         if(existUser(name ,password)){
             User user = searchUser(name);
             user.setActivity(true);
+            System.out.println("El usuario " + user.getName() + " se conecto a la red social");
             return true;
         }
-        System.out.println("El usuario no existe\n");
+        System.out.println("El usuario no existe");
         return false;
     }
     /**
@@ -63,9 +64,10 @@ public class Socialnetwork implements Accionable{
             User user = new User(createIDUser(), name, password, Calendar.getInstance().getTime());
             user.setActivity(true);
             addListUser(user);
+            System.out.println("El usuario " + user.getName() + " se creo y conecto a la red social");
             return true;
         }
-        System.out.println("El usuario ya existe\n");
+        System.out.println("El usuario ya existe");
         return false;
     }
     
@@ -74,8 +76,9 @@ public class Socialnetwork implements Accionable{
      */
     public void logout(){
         
-        searchUserActive().setActivity(false);
+        System.out.println("El usuario " + searchUserActive().getName() + " se desconecto de la red social\n\n");
         
+        searchUserActive().setActivity(false);
     }
     
     /**
@@ -91,6 +94,7 @@ public class Socialnetwork implements Accionable{
             Post post = new Post(createIDPost(), author, Calendar.getInstance().getTime(), content, typePost);
             addListPost(post);
             author.addListPost(post);
+            System.out.println("Publicaciones creada correctamente");
         }
     }
     /**
@@ -104,14 +108,16 @@ public class Socialnetwork implements Accionable{
     public void post(String typePost, String content, ArrayList<String> listStringUser){
         
         User author = searchUserActive();
+        boolean seEnvioUno = false;
         if(author != null){
             Post post = new Post(createIDPost(), author, Calendar.getInstance().getTime(), content, typePost);
-            addListPost(post);
             for(String nameUser: listStringUser){
                 if(existUser(nameUser)){
                     User user = searchUser(nameUser);
-                    if(user.getFollowers().existFollow(author) && author.getFollowed().existFollow(user)){
+                    if(user.getFollowers().existFollow(author) && user.getFollowed().existFollow(author)){
                         user.addListPost(post);
+                        seEnvioUno = true;
+                        System.out.println("Publicacion enviada correctamente a "+user.getName());
                     }
                     else{
                         System.out.println("No se puede enviar el post a "+ user.getName() +", no se siguen mutuamente");
@@ -120,6 +126,10 @@ public class Socialnetwork implements Accionable{
                 else{
                     System.out.println("No existe el Usuario" + nameUser + "para enviarle el post");
                 }
+            }
+            if(seEnvioUno){
+                addListPost(post);
+                System.out.println("Publicaciones enviadas correctamente");
             }
         }
     }
@@ -132,14 +142,19 @@ public class Socialnetwork implements Accionable{
     public void follow(String name){
         
         User userConnect = searchUserActive();
-        //System.out.println("Name = " + name + "\nAdming: "+ userConnect.getName() + "\n");
         if(!name.equals(userConnect.getName())){
-            User user = searchUser(name);
+            if(existUser(name)){
+                User user = searchUser(name);
 
-            userConnect.getFollowed().addListFollows(user);
-            user.getFollowers().addListFollows(userConnect);
+                userConnect.getFollowed().addListFollows(user);
+                user.getFollowers().addListFollows(userConnect);
+                
+                System.out.println("El usuario " + userConnect.getName() + " sigue a " + user.getName());
+            }else{
+                System.out.println("El usuario no existe");
+            }
         }else{
-            System.out.println("No puedes seguir a ti mismo\n");
+            System.out.println("No puedes seguir a ti mismo");
         }
         
     }
@@ -160,9 +175,11 @@ public class Socialnetwork implements Accionable{
                 User user = searchUser(nameUser);
                 if(user.getName().equals(searchUserActive().getName())){
                     user.addListPostShare(post, Calendar.getInstance().getTime());
+                    System.out.println("La publicacion se compartio correctamente a su cuenta");
                 }
-                else if(user.getFollowers().existFollow(searchUserActive()) && searchUserActive().getFollowed().existFollow(user)){
+                else if(user.getFollowers().existFollow(searchUserActive()) && user.getFollowed().existFollow(searchUserActive())){
                     user.addListPostShare(post, Calendar.getInstance().getTime());
+                    System.out.println("La publicacion se compartio correctamente a la cuenta de " + user.getName());
                 }                
                 else{
                     System.out.println("No se puede compartir, no se siguen mutuamente");
@@ -220,9 +237,19 @@ public class Socialnetwork implements Accionable{
      * @param text Es el comentario que se desea colocar.
      */
     public void comment(Post post, String text){
-        Comment comment = new Comment(createIDComment(), searchUserActive(), Calendar.getInstance().getTime(), text);
-        addListComment(comment);
-        post.addListComment(comment);
+        User author = searchUserActive();
+        if(author != null){
+            Comment comment = new Comment(createIDComment(), searchUserActive(), Calendar.getInstance().getTime(), text);
+            User user = post.getAuthor();
+            if(author.getFollowers().existFollow(user) && author.getFollowed().existFollow(user) || author.equals(user)){
+                addListComment(comment);
+                post.addListComment(comment);
+                System.out.println("Cometario enviado correctamente a la publicacion " + post.getId());
+            }
+            else{
+                System.out.println("No se puede enviar el comentario a la publicacion "+ post.getId() + ", no se siguen mutuamente (el autor con el que envia el comentario)");
+            }
+        }   
     }
     /**
      * Metodo que permite hacer un comentario a un comentario.
@@ -230,9 +257,21 @@ public class Socialnetwork implements Accionable{
      * @param text Es el comentario que se desea colocar.
      */
     public void comment(Comment comment, String text){
-        Comment commentComment = new Comment(createIDComment(), searchUserActive(), Calendar.getInstance().getTime(), text);
-        addListComment(commentComment);
-        comment.addListComment(commentComment);
+        User author = searchUserActive();
+        if(author != null){
+            Comment commentComment = new Comment(createIDComment(), searchUserActive(), Calendar.getInstance().getTime(), text);
+            User user = comment.getAuthor();
+            if(user.getFollowers().existFollow(author) && user.getFollowed().existFollow(author) || author.equals(user)){
+                addListComment(commentComment);
+                comment.addListComment(commentComment);
+                System.out.println("Cometario enviado correctamente al comentario " + comment.getId());
+            }
+            else{
+                System.out.println("No se puede enviar el comentario al comentario "+ comment.getId() + ", no se siguen mutuamente (el autor con el que envia el comentario)");
+            }
+        }else{
+            System.out.println("No hay un usuario conectado");
+        }
     }
     
     /**
@@ -240,16 +279,45 @@ public class Socialnetwork implements Accionable{
      * @param comment El comentario a dar like
      */
     public void like(Comment comment){
-        Like like = new Like(comment.creatIdLike(), Calendar.getInstance().getTime(), searchUserActive());
-        comment.addListLike(like);
+        User author = searchUserActive();
+        if(author != null){
+            Like like = new Like(comment.creatIdLike(), Calendar.getInstance().getTime(), searchUserActive());
+            User user = comment.getAuthor();
+            if(user.getFollowers().existFollow(author) && user.getFollowed().existFollow(author)){
+                comment.addListLike(like);
+                System.out.println("Like enviado correctamente al comentario " + comment.getId());
+            }
+            else{
+                System.out.println("No se puede enviar el Like al comentario "+ comment.getId() + ", no se siguen mutuamente (el autor con el que envia el comentario)");
+            }
+        }else{
+            System.out.println("No hay un usuario conectado");
+        }
+        
+        
     }
     /**
      * Metodo que permite dar like a una publicacion
      * @param post La publicacion a dar like
      */
     public void like(Post post){
-        Like like = new Like(post.creatIdLike(), Calendar.getInstance().getTime(), searchUserActive());
-        post.addListLike(like);
+        User author = searchUserActive();
+        if(author != null){
+            Like like = new Like(post.creatIdLike(), Calendar.getInstance().getTime(), searchUserActive());
+            User user = post.getAuthor();
+            if(user.getFollowers().existFollow(author) && user.getFollowed().existFollow(author)){
+                post.addListLike(like);
+                System.out.println("Like enviado correctamente a la publicacion " + post.getId());
+            }
+            else{
+                System.out.println("No se puede enviar el Like a la publicacion "+ post.getId() + ", no se siguen mutuamente (el autor con el que envia el comentario)");
+            }
+        }else{
+            System.out.println("No hay un usuario conectado");
+        }
+        
+        
+        
     }
     
     //--------------------------------------------------- CREACION ID -------------------------------------------------------
@@ -315,8 +383,6 @@ public class Socialnetwork implements Accionable{
             }
         }
         return false;
-    
-        //return listUser.stream().anyMatch(user -> (name.equals(user.getName()) && password.equals(user.getPassword())));
     }
     
     /**
@@ -331,8 +397,6 @@ public class Socialnetwork implements Accionable{
             }
         }
         return false;
-        
-        //return listUser.stream().anyMatch(user -> (name.equals(user.getName())));
     }
     
     
@@ -349,8 +413,7 @@ public class Socialnetwork implements Accionable{
                 return user;
             }
         }
-        User user = null;
-        return user;
+        return null;
     }
     
     /**
@@ -364,8 +427,7 @@ public class Socialnetwork implements Accionable{
                 return user;
             }
         }
-        User user = null;
-        return user;
+        return null;
     }
     
     /**
@@ -379,8 +441,7 @@ public class Socialnetwork implements Accionable{
                 return user;
             }
         }
-        User user = null;
-        return user;
+        return null;
     }
     
     /**
@@ -394,8 +455,7 @@ public class Socialnetwork implements Accionable{
                 return post;
             }
         }
-        Post post = null;
-        return post;
+        return null;
     }
     
     /**
@@ -409,8 +469,7 @@ public class Socialnetwork implements Accionable{
                 return comment;
             }
         }
-        Comment comment = null;
-        return comment;
+        return null;
     }
     
     

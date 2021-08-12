@@ -28,6 +28,9 @@ public class Post extends Information{
         this.typePost = typePost;
         this.amountShare = 0;
     }
+    
+    public Post(){
+    }
 
     /**
      * Metodo que permite recoger el tipo de la publicacion

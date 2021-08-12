@@ -59,6 +59,7 @@ public class Socialnetwork implements Accionable{
      * @param password Contraseña del usuario a crear.
      * @return Verificacion de creacion y a su vez de conectividad.
      */
+    @Override
     public boolean register(String name, String password){
         if(!existUser(name, password)){
             User user = new User(createIDUser(), name, password, Calendar.getInstance().getTime());
@@ -74,6 +75,7 @@ public class Socialnetwork implements Accionable{
     /**
      * Permite desconectar a una cuenta conectada en la socialnetwork.
      */
+    @Override
     public void logout(){
         
         System.out.println("El usuario " + searchUserActive().getName() + " se desconecto de la red social\n\n");
@@ -86,6 +88,7 @@ public class Socialnetwork implements Accionable{
      * @param typePost Tipo de publicacion a hacer (Puede ser "Text", "Photo", "Video", "Audio").
      * @param content Contenido de la publicion que se va a hacer.
      */
+    @Override
     public void post(String typePost, String content){
         
         User author = searchUserActive();
@@ -105,6 +108,7 @@ public class Socialnetwork implements Accionable{
      * @param content Contenido de la publicion que se va a hacer.
      * @param listStringUser Arreglo de nombres de usuarios a enviar la publicacion.
      */
+    @Override
     public void post(String typePost, String content, ArrayList<String> listStringUser){
         
         User author = searchUserActive();
@@ -139,6 +143,7 @@ public class Socialnetwork implements Accionable{
      * Es decir que un user1 no puede seguir a user1, porque no se puede seguir a si mismo.
      * @param name El nombre del usuario a seguir.
      */
+    @Override
     public void follow(String name){
         
         User userConnect = searchUserActive();
@@ -168,6 +173,7 @@ public class Socialnetwork implements Accionable{
      * @param idPost Es el id de la publicacion.
      * @param listUser Un arreglo de usuarios a la que va dirijida.
      */
+    @Override
     public void share(int idPost, ArrayList<String> listUser){
         Post post = searchPost(idPost);
         for(String nameUser: listUser){
@@ -195,6 +201,7 @@ public class Socialnetwork implements Accionable{
     /**
      * Metodo que permite visualizar una socialnetwork o el usuario activo.
      */
+    @Override
     public void visualize(){
         PrintSocialNetwork(SocialNetworkToString());
     }
@@ -236,6 +243,7 @@ public class Socialnetwork implements Accionable{
      * @param post Es a la publicacion que va dirijida.
      * @param text Es el comentario que se desea colocar.
      */
+    @Override
     public void comment(Post post, String text){
         User author = searchUserActive();
         if(author != null){
@@ -256,6 +264,7 @@ public class Socialnetwork implements Accionable{
      * @param comment Es al comentario que va dirijida.
      * @param text Es el comentario que se desea colocar.
      */
+    @Override
     public void comment(Comment comment, String text){
         User author = searchUserActive();
         if(author != null){
@@ -278,6 +287,7 @@ public class Socialnetwork implements Accionable{
      * Metodo que permite dar like a un comentario
      * @param comment El comentario a dar like
      */
+    @Override
     public void like(Comment comment){
         User author = searchUserActive();
         if(author != null){
@@ -300,6 +310,7 @@ public class Socialnetwork implements Accionable{
      * Metodo que permite dar like a una publicacion
      * @param post La publicacion a dar like
      */
+    @Override
     public void like(Post post){
         User author = searchUserActive();
         if(author != null){

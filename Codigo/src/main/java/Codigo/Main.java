@@ -597,7 +597,7 @@ public class Main {
                             // Inicio la eleccion de la pregunta
                             runCorreccion = true;
                             ejecucion = false;
-                            postComentar = null;
+                            postComentar = new Post();
                             while(runCorreccion){
                                 //Pido los datos
                                 typePost_S = eleccion.nextLine();

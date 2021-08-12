@@ -38,6 +38,9 @@ public abstract class Information {
         this.listLike = new ArrayList();
     }
 
+    public Information(){
+        
+    }
     /**
      * Metodo que permite recoger el id de la clase
      * @return El id de la clase
